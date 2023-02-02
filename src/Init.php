@@ -38,7 +38,9 @@ class Init
      */
     public function setLogsPath(string $log_path): self
     {
-        define('FLAMIX_LOGS_PATH', $log_path);
+        if (!defined('FLAMIX_LOGS_PATH'))
+            define('FLAMIX_LOGS_PATH', $log_path);
+        
         return $this;
     }
 
