@@ -18,77 +18,78 @@ class Recommendations
                 'name' => 'WooCommerce (Orders)',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/woocommerce.php',
                 'wp' => 'woocommerce/woocommerce.php',
-                'flamix' => 'flamix-bitrix24-and-woo-integrations/flamix-bitrix24-and-woo-integrations.php',
+                'flamix' => 'flamix-bitrix24-and-woo-integrations',
             ],
             [
                 'name' => 'WooCommerce (Products)',
                 'url' => 'https://flamix.solutions/bitrix24/warehouse/sync_products.php',
                 'wp' => 'woocommerce/woocommerce.php',
-                'flamix' => 'flamix-bitrix24-and-woo-products-sync/flamix-bitrix24-and-woo-products-sync.php',
+                'flamix' => 'flamix-bitrix24-and-woo-products-sync',
             ],
             [
                 'name' => 'WooCommerce (Rests)',
                 'url' => 'https://flamix.solutions/bitrix24/warehouse/sync_rests.php',
                 'wp' => 'woocommerce/woocommerce.php',
-                'flamix' => 'flamix-bitrix24-and-woo-products-sync/flamix-bitrix24-and-woo-products-sync.php',
+                'flamix' => 'flamix-bitrix24-and-woo-products-sync',
             ],
             [
                 'name' => 'Contact Form 7',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/cf7.php',
                 'wp' => 'contact-form-7/wp-contact-form-7.php',
-                'flamix' => 'flamix-bitrix24-and-contact-forms-7-integrations/flamix-bitrix24-and-contact-forms-7-integrations.php',
+                'flamix' => 'flamix-bitrix24-and-contact-forms-7-integrations',
             ],
             [
                 'name' => 'Ninja Forms',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/ninja-forms.php',
                 'wp' => 'ninja-forms/ninja-forms.php',
-                'flamix' => 'flamix-bitrix24-ninjaforms/flamix-bitrix24-ninjaforms.php',
+                'flamix' => 'flamix-bitrix24-and-ninja-forms-integration',
             ],
             [
                 'name' => 'Elementor forms',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/elementor-forms.php',
                 'wp' => 'elementor/elementor.php',
-                'flamix' => 'flamix-bitrix24-elementor/flamix-bitrix24-elementor.php',
+                'flamix' => 'flamix-bitrix24-and-elementor-forms-integration',
             ],
             [
                 'name' => 'WPForms Lite',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/wpforms.php',
                 'wp' => 'wpforms-lite/wpforms.php',
-                'flamix' => 'flamix-bitrix24-wpforms/flamix-bitrix24-wpforms.php',
+                'flamix' => 'flamix-bitrix24-and-wpforms-integration',
             ],
             [
                 'name' => 'WPForms',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/wpforms.php',
                 'wp' => 'wpforms/wpforms.php',
-                'flamix' => 'flamix-bitrix24-wpforms/flamix-bitrix24-wpforms.php',
+                'flamix' => 'flamix-bitrix24-and-wpforms-integration',
             ],
             [
                 'name' => 'Fluent form',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/fluent-form.php',
                 'wp' => 'fluentform/fluentform.php',
-                'flamix' => 'flamix-bitrix24-fluentform/flamix-bitrix24-fluentform.php',
+                'flamix' => 'flamix-bitrix24-and-fluent-form-integration',
             ],
             [
                 'name' => 'Forminator',
                 'url' => 'https://flamix.solutions/bitrix24/integrations/site/forminator.php',
                 'wp' => 'forminator/forminator.php',
-                'flamix' => 'flamix-bitrix24-forminator/flamix-bitrix24-forminator.php',
+                'flamix' => 'flamix-bitrix24-and-forminator-integration',
             ],
         ];
     }
 
     /**
-     * Get banner info.
+     * Get banner.
      *
      * @param string $code Module code. Will be use in utm_campaign.
-     * @param bool $images Images or URL?
      * @return string
      */
-    public static function banner(string $code, bool $images = true): string
+    public static function banner(string $code): string
     {
-        if ($images)
-            return '//s3.eu-central-1.amazonaws.com/flamix-solutions/banners/bitrix24_apps_general/bitrix24_600_1067.jpg';
+        $lang = explode('_', get_locale());
+        $lang = $lang['0'] ?? 'en';
+        $image = "https://pr.flamix.info/api/v1/banner/{$lang}/300/600/image?tag=wordpress";
+        $link = "https://pr.flamix.info/api/v1/banner/{$lang}/300/600/link?tag=wordpress&utm_source=plugin&utm_medium=wordpress_plugin&utm_campaign=" . $code . "&utm_term=" . ($_SERVER['HTTP_HOST'] ?? '') . "&utm_content=banner";
 
-        return "https://flamix.solutions/?utm_source=module&utm_campaign={$code}&utm_term=" . $_SERVER['HTTP_HOST'] ?? '';
+        return "<a href='{$link}' target='_blank'><img src='{$image}' width='300px' /></a>";
     }
 }

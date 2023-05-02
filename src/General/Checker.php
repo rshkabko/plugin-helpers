@@ -32,6 +32,7 @@ class Checker
      */
     public static function isPluginActive(string $plugin)
     {
+        $plugin = str_contains($plugin, '.php') ? $plugin : "{$plugin}/{$plugin}.php";
         return in_array($plugin, (array)get_option('active_plugins', []));
     }
 
