@@ -20,7 +20,12 @@ class Checker
             $result = '<span style="color: #dc3232;">' . ($options['1'] ?? 'Disabled') . '</span>';
         }
 
-        return $name . ': ' . $result;
+        // WordPress
+        if (function_exists('wp_kses_post')) {
+            return wp_kses_post("$name: $result");
+        }
+
+        return "$name: $result";
     }
 
     /**
