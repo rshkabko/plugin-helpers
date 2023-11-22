@@ -15,6 +15,11 @@
         "symfony/var-dumper": ">=5.4",
         "voku/portable-ascii": "^2.0"
     },
+    "extra": {
+        "include_files": [
+            "src/helpers.php"
+        ]
+    },
     "autoload":{
         "psr-4":{
             "Flamix\\Plugin\\":"src"
