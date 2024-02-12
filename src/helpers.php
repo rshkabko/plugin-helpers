@@ -8,9 +8,14 @@ if (!function_exists('tap')) {
      * @param callable $callback
      * @return mixed
      */
-    function tap($value, callable $callback)
+    function tap($value, ?callable $callback = null)
     {
+        if (is_null($callback)) {
+            return new \Flamix\Plugin\General\HigherOrderTapProxy($value);
+        }
+
         $callback($value);
+        
         return $value;
     }
 }
