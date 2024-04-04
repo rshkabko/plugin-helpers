@@ -135,6 +135,16 @@ class SQL
     }
 
     /**
+     * Clear all Queue.
+     *
+     * @return string
+     */
+    public function clear(): string
+    {
+        return "DELETE FROM {$this->getTableName()};";
+    }
+
+    /**
      * Secure convert ['key' => 'value'] to key='value'.
      *
      * @param array $where
