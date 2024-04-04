@@ -11,7 +11,11 @@ class JobCommands
      */
     public function isTableExist(): bool
     {
-        return $this->query($this->sqlClosure()->describeTable()) !== false;
+        if (empty($this->query($this->sqlClosure()->describeTable()))) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
