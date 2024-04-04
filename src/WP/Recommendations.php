@@ -87,6 +87,7 @@ class Recommendations
     {
         $lang = explode('_', get_locale());
         $lang = $lang['0'] ?? 'en';
+        $lang = in_array($lang, ['en', 'ru', 'ua']) ? $lang : 'en';
         $image = "https://pr.flamix.info/api/v1/banner/{$lang}/300/600/image?tag=wordpress";
         $link = "https://pr.flamix.info/api/v1/banner/{$lang}/300/600/link?tag=wordpress&utm_source=plugin&utm_medium=wordpress_plugin&utm_campaign=" . $code . "&utm_term=" . ($_SERVER['HTTP_HOST'] ?? '') . "&utm_content=banner";
 
