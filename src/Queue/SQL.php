@@ -135,13 +135,15 @@ class SQL
     }
 
     /**
-     * Clear all Queue.
+     * Delete JOB from DB.
      *
+     * @param  int $id
      * @return string
      */
-    public function clear(): string
+    public function clear(int $id = 0): string
     {
-        return "DELETE FROM {$this->getTableName()};";
+        $where = $id ? $this->arrayToSQL(['id' => $id]) : $this->arrayToSQL([]);
+        return "DELETE FROM {$this->getTableName()} WHERE {$where};";
     }
 
     /**
