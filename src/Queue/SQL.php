@@ -98,7 +98,7 @@ class SQL
     {
         $sql = "SELECT id, order_id, UNIX_TIMESTAMP(reserved_at) as reservet_at_timestamp
                     FROM {$this->getTableName()}
-                        WHERE order_job_status != '%s' AND (reserved_at IS NULL OR reserved_at < NOW() + INTERVAL %d SECOND)
+                        WHERE order_job_status != '%s' AND (reserved_at IS NULL OR reserved_at < NOW() - INTERVAL %d SECOND)
                             ORDER BY id DESC
                                 LIMIT %d;";
 
