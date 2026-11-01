@@ -7,10 +7,11 @@ use Monolog\Logger;
 use voku\helper\ASCII;
 use Exception;
 
+/** Laravel-style string helpers and the file logger behind flamix_log(). */
 class Helpers
 {
     /**
-     * When saving email - check.
+     * Host of a URL, with or without a scheme.
      *
      * @param string $url
      * @return string
@@ -54,14 +55,11 @@ class Helpers
     {
         $title = ASCII::to_ascii($title, 'en');
 
-        // Convert all dashes/underscores into separator
         $flip = $separator === '-' ? '_' : '-';
         $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
 
-        // Remove all characters that are not the separator, letters, numbers, or whitespace
         $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', strtolower($title));
 
-        // Replace all separator characters and whitespace by a single separator
         $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
 
         return trim($title, $separator);
@@ -72,7 +70,7 @@ class Helpers
      * 
      * @param string $value
      * @param int $limit
-     * @param string $$end
+     * @param string $end
      * @return string
      */
     public static function limit(string $value, int $limit = 100, string $end = '...'): string

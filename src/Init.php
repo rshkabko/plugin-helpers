@@ -2,6 +2,7 @@
 
 namespace Flamix\Plugin;
 
+/** Plugin bootstrap: defines <NAME>_CODE, <NAME>_DIR and FLAMIX_LOGS_PATH. */
 class Init
 {
     private string $plugin_dir;
@@ -10,7 +11,7 @@ class Init
 
     public function __construct(string $dir, string $constant_name)
     {
-        include 'helpers.php';
+        require_once __DIR__ . '/helpers.php';
         $code = explode('/', $dir);
         $this->plugin_dir = $dir;
         $this->constant_name = $constant_name;
@@ -29,9 +30,7 @@ class Init
     }
 
     /**
-     * Set logs path.
-     *
-     * We will use this in flamix_log()
+     * Define FLAMIX_LOGS_PATH for flamix_log(); the first call wins.
      *
      * @param string $log_path
      * @return $this

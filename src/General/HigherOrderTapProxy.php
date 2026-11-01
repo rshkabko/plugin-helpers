@@ -2,6 +2,7 @@
 
 namespace Flamix\Plugin\General;
 
+/** What tap() returns without a callback: forwards a method call to the target and returns the target. */
 class HigherOrderTapProxy
 {
     /**

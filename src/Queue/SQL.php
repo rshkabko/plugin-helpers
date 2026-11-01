@@ -2,6 +2,7 @@
 
 namespace Flamix\Plugin\Queue;
 
+/** Builds the raw SQL of a jobs table; most values go through the prepare closure (e.g. $wpdb->prepare). */
 class SQL
 {
     private string $table;
@@ -11,7 +12,7 @@ class SQL
      * @param  string  $table  Table name
      * @param  callable  $prepareClosure  Functions to clear SQL injections (->prepare($sql))
      */
-    public function __construct(string $table = 'fx_flamix_order_jobs', callable $prepareClosure)
+    public function __construct(string $table, callable $prepareClosure)
     {
         $this->table = $table;
         $this->prepareClosure = $prepareClosure;
@@ -29,9 +30,7 @@ class SQL
     }
 
     /**
-     * Get table full name.
-     *
-     * Different jobs type must have different table.
+     * Table name; each job type needs its own table.
      *
      * @return string
      */
@@ -87,10 +86,10 @@ class SQL
     }
 
     /**
-     * Witch JOBs not send.
+     * Jobs not in the $success status and not reserved in the last $block seconds.
      *
      * @param  string  $success
-     * @param  int  $block  Block 60 sec!
+     * @param  int  $block  Seconds
      * @param  int  $limit
      * @return string
      */
@@ -158,7 +157,7 @@ class SQL
      */
     public function clear(int $id = 0): string
     {
-        $where = $id ? $this->arrayToSQL(['id' => $id]) : $this->arrayToSQL([]);
+        $where = $this->arrayToSQL($id ? ['id' => $id] : []);
         return "DELETE FROM {$this->getTableName()} WHERE {$where};";
     }
 
@@ -174,20 +173,16 @@ class SQL
             return '1=1';
         }
 
-        foreach ($where as $key => &$value)
-            switch ($value) {
-                case 'increment':
-                    $value = "{$key}={$key}+1";
-                    break;
-
-                case 'now':
-                    $value = "{$key}=NOW()";
-                    break;
-
-                default:
-                    $value = $this->prepare("{$key}=%s", $value);
-                    break;
+        foreach ($where as $key => &$value) {
+            // Strict: a loose switch matched true (and 0 on PHP 7.4) to 'increment'.
+            if ($value === 'increment') {
+                $value = "{$key}={$key}+1";
+            } elseif ($value === 'now') {
+                $value = "{$key}=NOW()";
+            } else {
+                $value = $this->prepare("{$key}=%s", $value);
             }
+        }
 
         return implode(',', $where);
     }

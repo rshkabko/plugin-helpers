@@ -1,12 +1,12 @@
 <?php
 
+// Laravel defines tap/throw_if/throw_unless too: whichever loads first wins, so keep the behaviour identical.
 if (!function_exists('tap')) {
     /**
-     * Tap, tap, tap....
+     * Pass the value to the callback and return the value; without a callback, proxy method calls to it.
      *
-     * @param $value
-     * @param callable $callback
-     * @return mixed
+     * @param mixed $value
+     * @return mixed|\Flamix\Plugin\General\HigherOrderTapProxy
      */
     function tap($value, ?callable $callback = null)
     {
@@ -22,7 +22,7 @@ if (!function_exists('tap')) {
 
 if (!function_exists('flamix_log')) {
     /**
-     * flamix_log('Hello', [1,2,3], 'commerceml');
+     * Write an info line to FLAMIX_LOGS_PATH/logs/<channel>/<date>-info-<md5>.log.
      *
      * @param string|bool|int $message Log message
      * @param array $context Data

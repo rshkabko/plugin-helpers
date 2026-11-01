@@ -2,6 +2,7 @@
 
 namespace Flamix\Plugin\Queue;
 
+/** Base for a queue of order jobs; the subclass implements ShouldQueue and sets $success. */
 class JobCommands
 {
     /**
@@ -11,11 +12,7 @@ class JobCommands
      */
     public function isTableExist(): bool
     {
-        if (empty($this->query($this->sqlClosure()->describeTable()))) {
-            return false;
-        }
-
-        return true;
+        return !empty($this->query($this->sqlClosure()->describeTable()));
     }
 
     /**
@@ -29,7 +26,6 @@ class JobCommands
             return true;
         }
 
-        // Create table
         $this->query($this->sqlClosure()->createTable());
 
         return $this->isTableExist();
@@ -59,8 +55,7 @@ class JobCommands
     }
 
     /**
-     * Update if order_id exist.
-     * Create if order_id not exist.
+     * Update the job of the order, or create it when there is none.
      *
      * @param $order_id
      * @param  array  $data
@@ -70,12 +65,10 @@ class JobCommands
     {
         $id = $this->query($this->sqlClosure()->select(['order_id' => $order_id], ['id'], 1))['0']->id ?? 0;
 
-        // Insert: if we can't find
         if (!$id) {
             return $this->create($order_id);
         }
 
-        // Update when we found id
         $this->update($data, ['id' => $id]);
         return $id;
     }

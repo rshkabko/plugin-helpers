@@ -2,6 +2,7 @@
 
 namespace Flamix\Plugin\General;
 
+/** Environment checks for a plugin settings page: coloured pass/fail lines, active plugins, e-mail. */
 class Checker
 {
     /**
@@ -20,7 +21,6 @@ class Checker
             $result = '<span style="color: #dc3232;">' . ($options['1'] ?? 'Disabled') . '</span>';
         }
 
-        // WordPress
         if (function_exists('wp_kses_post')) {
             return wp_kses_post("$name: $result");
         }
@@ -29,9 +29,7 @@ class Checker
     }
 
     /**
-     * Is plugin active.
-     *
-     * Some people download plugin for CF7, but don't install CF7
+     * Is the WordPress plugin active, e.g. whether CF7 is installed for a CF7 integration.
      *
      * @param string $plugin
      * @return bool
@@ -42,7 +40,6 @@ class Checker
 
         $wordpress_plugins = (array)get_option('active_plugins', []);
 
-        // Multisite
         if (MULTISITE) {
             $network_plugins = array_keys((array)get_site_option('active_sitewide_plugins', []));
             $wordpress_plugins = array_merge($wordpress_plugins, $network_plugins);
@@ -52,7 +49,7 @@ class Checker
     }
 
     /**
-     * When saving email - check.
+     * Return the e-mail when it is valid, false otherwise.
      *
      * @param string $option
      * @return bool|string

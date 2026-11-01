@@ -2,9 +2,9 @@
 
 namespace Flamix\Plugin\WP;
 
+/** markup_* echo settings rows, adminMessage() returns a notice; needs esc_html(). */
 class Markup
 {
-
     public static function markup_input(string $id, array $params)
     {
         ?>

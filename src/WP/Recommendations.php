@@ -2,14 +2,13 @@
 
 namespace Flamix\Plugin\WP;
 
+/** Flamix WordPress integrations to recommend, and the Flamix banner. */
 class Recommendations
 {
     /**
-     * WordPress recommended plugins.
+     * Flamix integrations, each with the WordPress plugin it needs.
      *
-     * Use for "auto" recommendations in main view section.
-     *
-     * @return array
+     * @return list<array{name: string, url: string, wp: string, flamix: string}>
      */
     public static function plugins(): array
     {
