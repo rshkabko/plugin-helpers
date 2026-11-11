@@ -39,7 +39,7 @@ use Flamix\Plugin\General\Status;
 Helpers::slug('Привет, мир! 2024');        // 'privet-mir-2024'
 Helpers::slug('Hello - big world', '_');   // 'hello_big_world'
 Helpers::limit('Hello world', 5);          // 'Hello...' (default limit 100, end '...')
-Helpers::parseDomain('shop.com/catalog');  // 'shop.com', a scheme is added when the string has no "http"
+Helpers::parseDomain('shop.com/catalog');  // 'shop.com', a scheme is added when the string does not start with one
 Status::key('Sent to CRM');                // 'SENT_TO_CRM', at most 60 characters
 ```
 

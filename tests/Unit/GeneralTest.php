@@ -23,7 +23,8 @@ class GeneralTest extends TestCase
 
     public function test_parse_domain_of_a_host_that_contains_http()
     {
-        $this->markTestIncomplete("Bug: src/General/Helpers.php:21 checks str_contains(\$url, 'http'), so 'httpbin.org' gets no scheme and parses to ''.");
         $this->assertSame('httpbin.org', Helpers::parseDomain('httpbin.org'));
+        $this->assertSame('portal.bitrix24.com', Helpers::parseDomain('portal.bitrix24.com/http'));
+        $this->assertSame('Portal.bitrix24.com', Helpers::parseDomain('HTTPS://Portal.bitrix24.com'));
     }
 }

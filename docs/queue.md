@@ -57,4 +57,4 @@ $sql->clear(3);                             // DELETE ... WHERE id='3'
 $sql->clear();                              // no id: DELETE every row
 ```
 
-Only one column per `$where`: several are joined with "," and give invalid SQL.
+Several columns in `$where` are joined with `AND`; in the `SET` of `update()` with ",".

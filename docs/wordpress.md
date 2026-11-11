@@ -35,7 +35,7 @@ Checker::isPluginActive('contact-form-7');                        // checks 'con
 Checker::isPluginActive('contact-form-7/wp-contact-form-7.php');  // a path with .php is used as is
 ```
 
-Reads the `MULTISITE` constant directly: define it, or single-site WordPress on PHP 8 throws "Undefined constant".
+Network-activated plugins count too when `is_multisite()` is true.
 
 ## Recommendations
 
@@ -47,5 +47,5 @@ foreach (Recommendations::plugins() as $item) {
     if (Checker::isPluginActive($item['wp']) && !Checker::isPluginActive($item['flamix'])) { /* recommend */ }
 }
 
-echo Recommendations::banner('cf7'); // 300x600 banner; get_locale() prefix en or ru, anything else (uk_UA too) gets en
+echo Recommendations::banner('cf7'); // 300x600 banner; get_locale() prefix en, ru or uk (as ua), anything else gets en
 ```

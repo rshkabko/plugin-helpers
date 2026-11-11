@@ -40,7 +40,8 @@ class Checker
 
         $wordpress_plugins = (array)get_option('active_plugins', []);
 
-        if (MULTISITE) {
+        // is_multisite(), not MULTISITE: the constant is undefined outside a fully booted WordPress.
+        if (function_exists('is_multisite') ? is_multisite() : (defined('MULTISITE') && MULTISITE)) {
             $network_plugins = array_keys((array)get_site_option('active_sitewide_plugins', []));
             $wordpress_plugins = array_merge($wordpress_plugins, $network_plugins);
         }

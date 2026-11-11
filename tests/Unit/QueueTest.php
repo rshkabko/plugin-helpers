@@ -28,8 +28,12 @@ class QueueTest extends TestCase
 
     public function test_sql_where_with_two_columns()
     {
-        $this->markTestIncomplete('Bug: src/Queue/SQL.php:187 joins WHERE conditions with "," instead of AND, so select([a => 1, b => 2]) is invalid SQL.');
         $this->assertSame("SELECT * FROM jobs WHERE a='1' AND b='2' ;", $this->sql()->select(['a' => 1, 'b' => 2]));
+    }
+
+    public function test_sql_where_with_two_columns_in_update_keeps_the_set_comma()
+    {
+        $this->assertSame("UPDATE jobs SET a='1',b='2' WHERE id='3' AND order_id='5';", $this->sql()->update(['a' => 1, 'b' => 2], ['id' => 3, 'order_id' => 5]));
     }
 
     public function test_job_commands_update_an_existing_job_and_read_its_status()

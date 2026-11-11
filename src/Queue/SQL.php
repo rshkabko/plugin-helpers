@@ -78,7 +78,7 @@ class SQL
      */
     public function select(array $where = [], array $fields = [], ?int $limit = null): string
     {
-        $where = $this->arrayToSQL($where);
+        $where = $this->arrayToSQL($where, ' AND ');
         $fields = (empty($fields)) ? '*' : implode(',', $fields);
         $limit = ($limit > 0) ? "LIMIT {$limit}" : '';
 
@@ -129,7 +129,7 @@ class SQL
     public function update(array $fields, array $where): string
     {
         $fields = $this->arrayToSQL($fields);
-        $where = $this->arrayToSQL($where);
+        $where = $this->arrayToSQL($where, ' AND ');
         return "UPDATE {$this->getTableName()} SET {$fields} WHERE {$where};";
     }
 
@@ -157,17 +157,12 @@ class SQL
      */
     public function clear(int $id = 0): string
     {
-        $where = $this->arrayToSQL($id ? ['id' => $id] : []);
+        $where = $this->arrayToSQL($id ? ['id' => $id] : [], ' AND ');
         return "DELETE FROM {$this->getTableName()} WHERE {$where};";
     }
 
-    /**
-     * Secure convert ['key' => 'value'] to key='value'.
-     *
-     * @param  array  $where
-     * @return string
-     */
-    private function arrayToSQL(array $where): string
+    /** Secure convert ['key' => 'value'] to key='value', joined by $glue: "," for SET, " AND " for WHERE. */
+    private function arrayToSQL(array $where, string $glue = ','): string
     {
         if (empty($where)) {
             return '1=1';
@@ -184,6 +179,6 @@ class SQL
             }
         }
 
-        return implode(',', $where);
+        return implode($glue, $where);
     }
 }

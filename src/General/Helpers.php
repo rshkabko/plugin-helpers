@@ -18,7 +18,7 @@ class Helpers
      */
     public static function parseDomain(string $url): string
     {
-        if (!str_contains($url, 'http'))
+        if (!preg_match('#^[a-z][a-z0-9+.-]*://#i', $url))
             $url = 'https://' . $url;
 
         $tmp = parse_url($url);

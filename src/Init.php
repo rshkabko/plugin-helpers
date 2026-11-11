@@ -60,16 +60,16 @@ class Init
     }
 
     /**
-     * Return all constants.
+     * The plugin constants; FLAMIX_LOGS_PATH is null until setLogsPath().
      *
-     * @return array
+     * @return array<string, string|null>
      */
     public function defined(): array
     {
         return [
             $this->constant_name . '_CODE' => constant($this->constant_name . '_CODE'),
             $this->constant_name . '_DIR' => constant($this->constant_name . '_DIR'),
-            'FLAMIX_LOGS_PATH' => FLAMIX_LOGS_PATH,
+            'FLAMIX_LOGS_PATH' => defined('FLAMIX_LOGS_PATH') ? FLAMIX_LOGS_PATH : null,
         ];
     }
 }

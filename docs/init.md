@@ -13,7 +13,7 @@ FLAMIX_EXCHANGE_PLUGIN_DIR;   // __DIR__
 $plugin->getPluginCode();     // same as _CODE
 $plugin->getPluginDir();      // same as _DIR
 
-// All three constants; call it only after setLogsPath(), otherwise "Undefined constant FLAMIX_LOGS_PATH"
+// All three constants; FLAMIX_LOGS_PATH is null until setLogsPath()
 $plugin->defined();
 ```
 
